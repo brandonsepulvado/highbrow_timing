@@ -30,7 +30,11 @@ data_1973 <- data_1973 %>%
          awf_opera = Q24B_4,
          awf_scimuseum = Q24B_5,
          awf_histsite = Q24B_6,
-         awf_ballet = Q24B_7)
+         awf_ballet = Q24B_7,
+         occupation = F2B) %>% 
+  mutate(occupation = as.character(occupation),
+         occupation = case_when(str_detect(occupation, 'Not sure') ~ NA_character_,
+                                TRUE ~ occupation))
 
 # change factors to numeric for additive scales
 
