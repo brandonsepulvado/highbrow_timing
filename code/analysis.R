@@ -70,8 +70,6 @@ write.xlsx(list(counts_income, counts_race, counts_gender, counts_age,
 # changes in highbrow consumption
 # data_1973 %>% 
 #   select(CASEID, gs_hb, jhs_hb, col_hb) %>% 
-  
-  
 
 # regression models ============================================================
 
@@ -183,6 +181,12 @@ model_13_female <- lm(as.numeric(income) ~ race + age_group + edu + gs_hb + jhs_
 
 # diagnostics ==================================================================
 
+# is mode 8 better than controls only
+anova(model_c, model_8)
+
+# is model 12 better than model 8
+anova(model_8, model_12)
+
 # function to plot residuals
 plot_resid <- function(model, model_name = NULL){
   # get plot to return
@@ -199,26 +203,32 @@ plot_resid(model_c, model_name = 'Model 0')
 
 # output =======================================================================
 
-# subset, pdf
-texreg(l=list(model_c, model_1, model_2, model_3, model_4), 
-        file = here('output', 'table_subset_1.tex'), caption = "OLS Models", 
-       caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
-#
-texreg(l=list(model_5, model_6, model_7, model_8), 
-       file = here('output', 'table_subset_2.tex'), caption = "OLS Models", 
-       caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
-# 
-texreg(l=list(model_9, model_10, model_11, model_12, model_13), 
-       file = here('output', 'table_subset_3.tex'), caption = "OLS Models", 
-       caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
+# models without occupation and household status
+texreg(l=list(model_c, model_8, model_12), 
+       file = here('output', 'table_no_occ.tex'), caption = "OLS Models", 
+       caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001",
+       single.row = TRUE)
 
-# subset, doc
-htmlreg(l=list(model_c, model_1, model_2, model_3, model_4, model_5, model_6,
-              model_7, model_8), 
-       file = here('output', 'table_subset_1.doc'), caption = "OLS Models", 
-       caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
-htmlreg(l=list(model_9, model_10, model_11, model_12, model_13), 
-       file = here('output', 'table_subset_2.doc'), caption = "OLS Models", 
-       caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
+# # subset, pdf
+# texreg(l=list(model_c, model_1, model_2, model_3, model_4), 
+#         file = here('output', 'table_subset_1.tex'), caption = "OLS Models", 
+#        caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
+# #
+# texreg(l=list(model_5, model_6, model_7, model_8), 
+#        file = here('output', 'table_subset_2.tex'), caption = "OLS Models", 
+#        caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
+# # 
+# texreg(l=list(model_9, model_10, model_11, model_12, model_13), 
+#        file = here('output', 'table_subset_3.tex'), caption = "OLS Models", 
+#        caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
+# 
+# # subset, doc
+# htmlreg(l=list(model_c, model_1, model_2, model_3, model_4, model_5, model_6,
+#               model_7, model_8), 
+#        file = here('output', 'table_subset_1.doc'), caption = "OLS Models", 
+#        caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
+# htmlreg(l=list(model_9, model_10, model_11, model_12, model_13), 
+#        file = here('output', 'table_subset_2.doc'), caption = "OLS Models", 
+#        caption.above = TRUE, custom.note = "* p>.05, ** p<.01, *** p<.001")
 
   
