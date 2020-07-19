@@ -63,7 +63,8 @@ data_1973 <- data_1973 %>%
       race_orig == "(6) American Indian" ~ "other",
       race_orig == "(7) Other (specify)" ~ "other",
       TRUE ~ NA_character_
-    )
+    ),
+    race = relevel(as.factor(race), ref = 'white')
   )
 
 
