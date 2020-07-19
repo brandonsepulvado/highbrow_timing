@@ -48,6 +48,40 @@ data_1973 <- data_1973 %>%
   mutate_at(vars_to_recode, ~case_when(is.na(.) ~ NA,
                                        str_detect(., '0') ~ FALSE,
                                        TRUE ~ TRUE)) %>% 
-  mutate(gs_hb = rowSums(select(., Q5C_1:Q5C_7), na.rm = TRUE),
-         jhs_hb = rowSums(select(., Q5D_1:Q5D_7), na.rm = TRUE),
-         col_hb = rowSums(select(., Q5E_1:Q5E_7), na.rm = TRUE))
+  rename(race_orig = race) %>% 
+  mutate(# highbrow scales
+    gs_hb = rowSums(select(., Q5C_1:Q5C_7), na.rm = TRUE),
+    jhs_hb = rowSums(select(., Q5D_1:Q5D_7), na.rm = TRUE),
+    col_hb = rowSums(select(., Q5E_1:Q5E_7), na.rm = TRUE),
+    # race
+    race = case_when(
+      race_orig == "(1) White" ~ "white",
+      race_orig == "(2) Negro or Black" ~ "black",
+      race_orig == "(3) Oriental" ~ "other",
+      race_orig == "(4) Puerto Rican" ~ "latino",
+      race_orig == "(5) Mexican, other Spanish-American" ~ "latino",
+      race_orig == "(6) American Indian" ~ "other",
+      race_orig == "(7) Other (specify)" ~ "other",
+      TRUE ~ NA_character_
+    )
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
